@@ -2,3 +2,4 @@
 *.pickle
 __pycache__/
 Credentials.json
+.tmp.driveupload/
