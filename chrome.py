@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 logging.getLogger('WDM').setLevel(logging.CRITICAL)
 
 # Configuration
-PLAYHT_URL = "https://app.play.ht/studio/file/NFrPN1gWNDAHjFbUj0sJ?voice=s3://voice-cloning-zero-shot/14decc65-157c-488a-acf2-454a53b649a4/original/manifest.json"
+PLAYHT_URL = "https://app.play.ht/studio/file/b3kp04H7gpgGtjuw2Pg5?voice=s3://voice-cloning-zero-shot/g9pQHXk92MA95fwvar5mg/urbanoire1/manifest.json"
 
 def setup_chrome():
     """Setup Chrome with specific profile and configuration."""
