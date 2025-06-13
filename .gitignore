@@ -1,0 +1,4 @@
+*.json
+*.pickle
+__pycache__/
+Credentials.json
