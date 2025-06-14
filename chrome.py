@@ -1,6 +1,7 @@
 import os
 import time
 import logging
+import psutil
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -14,21 +15,39 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 logging.getLogger('WDM').setLevel(logging.CRITICAL)
 
 # Configuration
+PROFILE_DIR = get_chrome_profile_path()
 PLAYHT_URL = "https://app.play.ht/studio/file/b3kp04H7gpgGtjuw2Pg5?voice=s3://voice-cloning-zero-shot/g9pQHXk92MA95fwvar5mg/urbanoire1/manifest.json"
+
+def kill_chrome_instances():
+    """Kill any Chrome instances that are using our profile directory."""
+    try:
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                # Check if it's a Chrome process
+                if proc.info['name'] and 'chrome' in proc.info['name'].lower():
+                    cmdline = proc.info['cmdline']
+                    if cmdline and any(PROFILE_DIR in arg for arg in cmdline):
+                        log(f"Killing Chrome process {proc.info['pid']} using our profile", "info")
+                        proc.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
+        time.sleep(2)  # Give processes time to close
+    except Exception as e:
+        log(f"Error killing Chrome instances: {str(e)}", "error")
 
 def setup_chrome():
     """Setup Chrome with specific profile and configuration."""
     try:
+        # Kill any existing Chrome instances using our profile
+        kill_chrome_instances()
+        
         # Create Chrome options
         chrome_options = Options()
         
-        # Get profile directory from platform config
-        PROFILE_DIR = get_chrome_profile_path()
-        
-        # Create profile directory if it doesn't exist
+        # Set up profile directory
         if not os.path.exists(PROFILE_DIR):
             os.makedirs(PROFILE_DIR)
-            log("Created new Chrome Profile directory", "info")
+            log("Created new Chrome profile directory", "info")
         
         # Add profile directory to options
         chrome_options.add_argument(f'--user-data-dir={PROFILE_DIR}')
