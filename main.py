@@ -1,5 +1,6 @@
 import time
 import os
+#wasup nigga
 import json
 from notion import (
     NotionHandler, TargetNotionHandler,
