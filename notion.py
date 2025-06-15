@@ -16,8 +16,13 @@ from urllib.parse import urlparse
 
 # Add these constants
 SCOPES = ['https://www.googleapis.com/auth/documents.readonly']
-TOKEN_PATH = 'docs_token.pickle'  # Changed to avoid conflict with Drive token
-CREDENTIALS_PATH = 'credentials.json'  # Google Docs credentials
+TOKEN_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'docs_token.pickle')
+CREDENTIALS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'credentials.json')
+
+# Debug prints
+print(f"Script directory: {os.path.dirname(os.path.abspath(__file__))}")
+print(f"Looking for credentials at: {CREDENTIALS_PATH}")
+print(f"File exists: {os.path.exists(CREDENTIALS_PATH)}")
 
 # Completely suppress all logging except our own
 logging.getLogger().setLevel(logging.CRITICAL)
