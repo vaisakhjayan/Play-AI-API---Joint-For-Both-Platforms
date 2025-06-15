@@ -16,10 +16,15 @@ from platformconfig import get_celebrity_vo_path
 SCOPES = ['https://www.googleapis.com/auth/drive']
 FOLDER_ID = '1FvOdQjUNxOcZTpO2DnQf4JIFLeBohQiG'
 LOCAL_FOLDER = get_celebrity_vo_path()
-TOKEN_PATH = 'token.pickle'
-CREDENTIALS_PATH = 'client_secret_410229145844-csaacms0ba2tkcgcv8efbsiojrr2app9.apps.googleusercontent.com.json'
+TOKEN_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'token.pickle')
+CREDENTIALS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'client_secret_410229145844-csaacms0ba2tkcgcv8efbsiojrr2app9.apps.googleusercontent.com (1).json')
 NOTION_DATABASE_ID = "1e502cd2c14280ca81e8ff63dad7f3ae"
 NOTION_API_KEY = "ntn_cC7520095381SElmcgTOADYsGnrABFn2ph1PrcaGSst2dv"
+
+# Debug prints
+print(f"Script directory: {os.path.dirname(os.path.abspath(__file__))}")
+print(f"Looking for Drive credentials at: {CREDENTIALS_PATH}")
+print(f"File exists: {os.path.exists(CREDENTIALS_PATH)}")
 
 def update_notion_page(title, drive_link):
     headers = {
